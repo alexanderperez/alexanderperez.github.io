@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <style type="text/css">
+        
+        html, body {
+            background-color: black;
+        }
+
+        input[type=text] {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 25px;
+            margin-top: -25px;
+            margin-left: -100px;
+            background-color: #ff4d4d;
+            color: black;
+            text-align: center;
+        }
+        
+        input[type=text]:focus {
+            border: 3px solid #555;
+        }
+        
+        input[type=submit] {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 25px;
+            margin-top: 10px;
+            margin-left: -97px;
+            background-color: white;
+            text-align: center;
+        }
+        
+        input[type=submit]:hover {
+            background-color: #ccccb3;
+        }
+
+	</style>
+        <link rel="stylesheet" href="css/style.css">
+        
+    </head>
+
+    <body>
+    
+        <form id="form" action="http://api.openweathermap.org/data/2.5/weather" method="get">
+            <input type="text" name="q" id="q"/>
+            
+            <input type="hidden" name="appid" value="afd4c2364f625dda3ce7deb8143bfde3"/>
+            <input type="hidden" name="mode" value="html"/>
+            
+            <input type="submit" value="GET WEATHER"/>
+        </form>
+    
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+        
+    <script>
+        $(document).ready( function() {
+            // get the form(s) and add event listener on "submit"
+            $('form').on('submit', handleSubmit);
+            
+            function handleSubmit(event) {
+                // don't leave the page!
+                console.log(event);
+                event.preventDefault();
+                
+                var formData = {
+                    q: $('#q').val(), //document.getElementId('q').value
+                    appid : 'afd4c2364f625dda3ce7deb8143bfde3',
+                    mode: 'json',
+                    units: 'imperial'
+                };
+                
+                $.ajax({
+                    url: 'http://api.openweathermap.org/data/2.5/weather',
+                    method: 'get',
+                    data: formData
+                }).done(gotData).fail(handleError)
+            }
+            
+            function gotData(data) {
+                console.log(data);
+            }
+            
+            function handleError(err) {
+                console.log('error', err);
+            }
+        });
+    </script>
+    
+    </body>
+</html>
