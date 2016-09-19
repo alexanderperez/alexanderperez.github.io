@@ -5,16 +5,23 @@
         
         html, body {
             background-color: black;
+            color: white;
+            font-family: "Courier New", Lucida, Console;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 175px;
         }
 
         input[type=text] {
             position: absolute;
-            top: 50%;
+            top: 25%;
             left: 50%;
             width: 200px;
             height: 25px;
             margin-top: -25px;
             margin-left: -100px;
+            font-family: "Courier New", Lucida, Console;
+            font-weight: bold;
             background-color: #ff4d4d;
             color: black;
             text-align: center;
@@ -26,12 +33,14 @@
         
         input[type=submit] {
             position: absolute;
-            top: 50%;
+            top: 25%;
             left: 50%;
             width: 200px;
             height: 25px;
             margin-top: 10px;
             margin-left: -97px;
+            font-family: "Courier New", Lucida, Console;
+            font-weight: bold;
             background-color: white;
             text-align: center;
         }
@@ -39,9 +48,16 @@
         input[type=submit]:hover {
             background-color: #ccccb3;
         }
+        
+        weatherData {
+            position: absolute;
+            top: 50%;
+            font-family: "Courier New", Lucida, Console;
+            font-weight: bold;
+            color: white;
+        }
 
 	</style>
-        <link rel="stylesheet" href="css/style.css">
         
     </head>
 
@@ -55,6 +71,8 @@
             
             <input type="submit" value="GET WEATHER"/>
         </form>
+        
+        <div id="weatherData"></div>
     
     <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
         
@@ -81,15 +99,35 @@
                     data: formData
                 }).done(gotData).fail(handleError)
             }
+        });
             
             function gotData(data) {
                 console.log(data);
+                
+                var name = data.name;
+                var currentTemp = data.main.temp;
+                var hiTemp = data.main.temp_max;
+                var loTemp = data.main.temp_min;
+                var windSpeed = data.wind.speed;
+                var cloudPer = data.clouds.all;
+                var desc = data.weather[0].description;
+                
+                document.getElementById("weatherData").innerHTML = name + "<br>" + currentTemp + "F<br>" + desc + 
+                                                                          "<br> Hi " + hiTemp + "F " + "<br> Lo " + loTemp +  "F <br>" 
+                                                                        + "Wind Speed " + windSpeed + "MPH<br>" + cloudPer + "% Cloud Cover";
+                
+                console.log(name + ": " + currentTemp + "F, " + desc);
+                console.log("Hi " + hiTemp + "F, " + "Lo " + loTemp +  "F, " + windSpeed + "MPH, " + cloudPer + "% Cloud Cover");
             }
+
+  
             
             function handleError(err) {
                 console.log('error', err);
             }
-        });
+            
+            
+            
     </script>
     
     </body>
